@@ -1,0 +1,215 @@
+'use client';
+
+import React from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Spinner } from '@/components/ui/spinner';
+import Link from 'next/link';
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { MessageCircle, Users, Calendar, Clock, User, BookOpen } from 'lucide-react';
+import moment from 'moment';
+import { ClassRoomType } from '@/types/class';
+import { getClass } from '@/services/classService';
+import { DiscussionComponent } from '@/components/Student/Enroll/DiscussionComponent';
+import { useAuth } from '@/context/AuthContext';
+import { ClassMateComponent } from '@/components/Student/Enroll/ClassMateComponent';
+import { LessonsComponent } from '@/components/Student/Enroll/LessonsComponent';
+import { useParams } from 'next/navigation';
+
+export default function CourseDetailPage() {
+  //const { id } = use(params);
+  const { id } = useParams();
+  const classId = Number(id);
+  const { user } = useAuth();
+
+  const { data: classroom, isLoading } = useQuery<ClassRoomType>({
+    queryKey: ['classes', classId],
+    queryFn: () => getClass(classId),
+    enabled: !Number.isNaN(classId),
+    refetchOnWindowFocus: false,
+  });
+
+  const displayTime = (time: string): string => {
+    if (!time) return '';
+    const [hours, minutes] = time.split(':');
+    if (!hours || !minutes) return '';
+    return `${parseInt(hours, 10)}:${minutes.padStart(2, '0')}`;
+  };
+
+
+  return (
+    <div className="max-w-9xl p-4 mx-auto space-y-6">
+      {/* Breadcrumbs */}
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <Link className="text-base md:text-md" href="/teacher/dashboard">
+                Dashboard
+              </Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <Link className="text-base md:text-md" href="/teacher/courses">
+                Courses
+              </Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <Link className="text-base md:text-md" href={`/teacher/courses/${classroom?.course?.id}`}>
+                {classroom?.course?.title || 'Course'}
+              </Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage className="text-base md:text-md">{classroom?.class_name || 'Class Detail'}</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+
+      {isLoading ? (
+        <Card className="border-0 shadow-xl bg-white/80  backdrop-blur p-6">
+          <div className="flex items-center justify-center py-14">
+            <Spinner className="text-primary size-7 md:size-8" />
+          </div>
+        </Card>
+      ) : (
+        <div className="flex flex-col gap-5">
+          <Card className="border-0 shadow-xl bg-white/80 p-6 backdrop-blur overflow-hidden">
+            <div className="flex flex-col lg:flex-row items-start gap-6">
+              <div className="w-full space-y-4">
+                <div className="space-y-2">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <div className="flex items-center gap-3">
+                      <h1 className="text-2xl md:text-3xl font-semibold tracking-tight text-foreground">{classroom?.class_name}</h1>
+                      <span
+                        className={`inline-flex items-center text-xs rounded-full px-2 py-0.5  font-medium ${classroom?.is_active ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'
+                          } `}
+                      >
+                        {classroom?.is_active ? 'Active' : 'Inactive'}
+                      </span>
+                    </div>
+
+                    {classroom?.zoom_link && (
+                      <Button size="sm" asChild variant="primary" className=" ">
+                        <a href={classroom.zoom_link} target="_blank" rel="noopener noreferrer">
+                          Join Zoom
+                        </a>
+                      </Button>
+                    )}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2  gap-4">
+                  {/* Duration */}
+                  <div className="flex items-center gap-3 p-4 rounded-xl bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-100">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center">
+                      <Calendar className="size-5 text-blue-600" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-xs font-medium text-blue-700 uppercase tracking-wide mb-1">Duration</div>
+                      <div className="text-sm font-semibold text-blue-900">
+                        {moment(classroom?.start).format('MMM DD')} - {moment(classroom?.end).format('MMM DD, YY')}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Time */}
+                  <div className="flex items-center gap-3 p-4 rounded-xl bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-100">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center">
+                      <Clock className="size-5 text-purple-600" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-xs font-medium text-purple-700 uppercase tracking-wide mb-1">Time</div>
+                      <div className="text-sm font-semibold text-purple-900">
+                        {displayTime(classroom?.start_time)} - {displayTime(classroom?.end_time)}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Teacher */}
+                  {classroom?.teacher && (
+                    <div className="flex items-center gap-3 p-4 rounded-xl bg-gradient-to-r from-green-50 to-emerald-50 border border-green-100">
+                      <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center">
+                        <User className="size-5 text-green-600" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-xs font-medium text-green-700 uppercase tracking-wide mb-1">Teacher</div>
+                        <div className="text-sm font-semibold text-green-900">
+                          {classroom.teacher.first_name} {classroom.teacher.last_name}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Students */}
+                  <div className="flex items-center gap-3 p-4 rounded-xl bg-gradient-to-r from-orange-50 to-red-50 border border-orange-100">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-orange-100 flex items-center justify-center">
+                      <Users className="size-5 text-orange-600" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-xs font-medium text-orange-700 uppercase tracking-wide mb-1">Students</div>
+                      <div className="text-sm font-semibold text-orange-900">{classroom?.class_mates?.length || 0} Enrolled</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Card>
+
+          {/* Tabs  */}
+          <Card className="border-0 shadow-xl mt-0 pt-0 bg-white/80 backdrop-blur overflow-hidden">
+            <Tabs defaultValue="classmates" className="w-full">
+              <div className="border-b bg-gradient-to-r from-slate-50 to-slate-100/50 px-6 py-5">
+                <TabsList className=" rounded-2xl bg-white  shadow  h-11">
+                  <TabsTrigger value="lessons" className="gap-2 rounded-xl transition-all  duration-300 cursor-pointer data-[state=active]:bg-primary data-[state=active]:text-primary-foreground px-6">
+                    <BookOpen className="size-4" />
+                    <span className="font-medium">Lessons</span>
+                  </TabsTrigger>
+
+                  <TabsTrigger
+                    value="classmates"
+                    className="gap-2 rounded-xl transition-all  duration-300 cursor-pointer data-[state=active]:bg-primary data-[state=active]:text-primary-foreground px-6"
+                  >
+                    <Users className="size-4" />
+                    <span className="font-medium">Class Mates</span>
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="discussion"
+                    className="gap-2   rounded-xl transition-all  duration-300 cursor-pointer data-[state=active]:bg-primary data-[state=active]:text-primary-foreground px-6"
+                  >
+                    <MessageCircle className="size-4" />
+                    <span className="font-medium">Discuss Room</span>
+                  </TabsTrigger>
+                </TabsList>
+              </div>
+
+              {/* Lesssons */}
+              <TabsContent value="lessons" className="p-6 space-y-6 mt-0">
+                <LessonsComponent lessons={classroom?.lessons} isTeacher={1} classroomId={classroom?.id} />
+              </TabsContent>
+
+              {/* Class Mates  */}
+              <TabsContent value="classmates" className="p-6 space-y-6 mt-0">
+                <ClassMateComponent classMates={classroom?.class_mates} />
+              </TabsContent>
+
+              {/* Discussion   */}
+              <TabsContent value="discussion" className="p-6 space-y-6 mt-0">
+                <DiscussionComponent classId={classroom?.id as number} userId={user?.id} />
+              </TabsContent>
+            </Tabs>
+          </Card>
+        </div>
+      )}
+    </div>
+  );
+}
