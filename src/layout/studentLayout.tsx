@@ -7,7 +7,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/co
 import { StudentDataProvider } from '@/context/StudentDataContext';
 
 const navigationItems = [
-  { title: "Home", href: '/student', icon: Home },
+  { title: "Home", href: '/student/home', icon: Home },
   { title: "Profile", href: '/student/profile', icon: UserRound },
   { title: "Contacts", href: "/student/contacts", icon: MessageCircle },
 ];
@@ -19,7 +19,7 @@ const mainNavigationItems = [
 ];
 
 const mobileNavigationItems = [
-  { title: "Home", href: '/student', icon: Home },
+  { title: "Home", href: '/student/home', icon: Home },
   { title: "My Courses", href: '/student/enrolls', icon: School },
   { title: "New Courses", href: '/student/courses', icon: BookOpen },
   { title: "Exams", href: "/student/exams", icon: Tag },
@@ -57,7 +57,7 @@ function MobileSidebarContent() {
                     : ''}`}>
                 <Link to={item.href} className='flex items-center justify-between w-full'>
                   <Icon
-                    className={`h-5 w-5 flex-shrink-0 transition-colors
+                    className={`h-5 w-5 shrink-0 transition-colors
               
                        ${active ? 'text-white' : 'text-gray-600'}`} />
 
@@ -133,7 +133,7 @@ function SidebarContent({ hovered }: { hovered: boolean }) {
                     : ''}`}>
                 <Link to={item.href} className='flex items-center w-full'>
                   <Icon
-                    className={`h-5 w-5 flex-shrink-0 transition-colors 
+                    className={`h-5 w-5 shrink-0 transition-colors 
                       ${hovered ? 'text-ocean/60' : 'text-gray-600'}
                        ${active && !hovered ? 'text-white' : 'text-gray-600'}`} />
                   {(hovered) && (
@@ -190,7 +190,7 @@ function HeaderBar() {
 
       {/* logo */}
       <Link to="/student" className="flex items-center gap-3 fex-shrink-0">
-        <div className="flex h-9 w-9 items-center justify-center rounded-2xl bg-gradient-to-br from-primary/70 to-primary shadow-md">
+        <div className="flex h-9 w-9 items-center justify-center rounded-2xl bg-linear-to-br from-primary/70 to-primary shadow-md">
           <GraduationCap className="h-5 w-5 text-white" />
         </div>
         <h1 className=" font-semibold text-gray-900">The Crystal Learning Hub</h1>
@@ -225,7 +225,7 @@ function HeaderBar() {
 
 
       {/* search */}
-      <div className=' flex items-center justify-center flex-shrink-0'>
+      <div className=' flex items-center justify-center shrink-0'>
         <div className="flex h-9 w-9 items-center justify-center rounded-2xl bg-primary/70 drop-shadow-2xl hover:bg-primary">
           <Search className="h-5 w-5 text-white" />
         </div>
@@ -259,7 +259,7 @@ export default function StudentLayout() {
 
             <main
               className={`flex-1 overflow-y-auto p-6 md:p-8 transition-all duration-300 ml-0 ${sidebarHovered ? 'md:ml-[180px]' : 'md:ml-[100px]'} ml-0`}>
-                <Outlet/>
+              <Outlet />
             </main>
           </div>
 

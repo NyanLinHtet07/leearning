@@ -1,5 +1,3 @@
-'';
-
 import { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { Input } from '@/components/ui/input';

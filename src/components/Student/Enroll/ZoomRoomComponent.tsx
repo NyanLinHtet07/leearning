@@ -1,6 +1,5 @@
-import Lottie, { LottieRefCurrentProps } from "lottie-react";
-import { useEffect, useRef } from "react";
-import Hello from '../../../public/lottie/Welcome.json';
+import Lottie from "lottie-react";
+import Hello from '../../../../public/lottie/Welcome.json';
 
 
 export interface ZoomRoomCompponentProps {
@@ -8,20 +7,16 @@ export interface ZoomRoomCompponentProps {
 }
 
 export function ZoomRoomComponent({ zoomLink }: ZoomRoomCompponentProps) {
-    const lottieRef = useRef<LottieRefCurrentProps>(null);
 
-    useEffect(() => {
-        if (lottieRef.current) {
-            lottieRef.current.setSpeed(0.9);
-        }
-    }, []);
+
+
 
     return (
         <div className=" drop-shadow-2xl backdrop-blur-lg bg-white/50 dark:bg-slate-900/80 rounded-2xl p-6 md:p-8 text-center">
             {zoomLink ? (
                 <>
                     <div className="flex mb-4 justify-center">
-                        <Lottie lottieRef={lottieRef} animationData={Hello} loop={true} className=" w-52" />
+                        <Lottie animationData={Hello} loop={true} className=" w-52" />
                     </div>
 
                     <h3 className="text-2xm font-semibold text-gray-800 mb-3">

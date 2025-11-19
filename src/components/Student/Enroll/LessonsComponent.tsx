@@ -1,10 +1,10 @@
 import { Button } from '@/components/ui/button';
 import { unlockLesson } from '@/services/lessonService';
-import { LessonType } from '@/types/lesson';
+import type { LessonType } from '@/types/lesson';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { ArrowRight, BookOpen, Lock } from 'lucide-react';
-import Link from 'next/link';
-import React from 'react';
+import { Link } from 'react-router-dom';
+
 import { toast } from 'sonner';
 
 interface LessonComponentProps {
@@ -71,7 +71,7 @@ export function LessonsComponent({ lessons, enrollId, isTeacher = 0, classroomId
                       </Button>
                     )
                   ) : lesson.is_locked === 0 ? (
-                    <Link href={`/student/enrolls/${enrollId}/lessons/${lesson.id}`} prefetch>
+                    <Link to={`/student/enrolls/${enrollId}/lessons/${lesson.id}`}>
                       <Button variant="default" className="gap-2">
                         Enter <ArrowRight size={16} />
                       </Button>
@@ -85,7 +85,7 @@ export function LessonsComponent({ lessons, enrollId, isTeacher = 0, classroomId
               </div>
             </div>
             {/* Hover Glow Effect */}
-            <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-primary/10 to-primary/5 pointer-events-none" />
+            <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-linear-to-r from-primary/10 to-primary/5 pointer-events-none" />
           </li>
         ))}
       </ul>

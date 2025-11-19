@@ -9,7 +9,7 @@ import { toast } from 'sonner';
 import type { payloadUser, TeacherType } from '@/types/user';
 import { updateStudent } from '@/services/userService';
 import { Eye, EyeOff, Upload, X } from 'lucide-react';
-import Image from 'next/image';
+
 interface StudentFormProps {
     open: boolean;
     onOpenChange: (open: boolean) => void;
@@ -146,8 +146,7 @@ export function StudentForm({ open, onOpenChange, editingItem, form, setForm, on
                                 {form?.cover ? (
                                     <div className=' relative group'>
                                         <div className='w-full overflow-hidden rounded-lg botder-2 border-primary/20 bg-muted/20'>
-                                            <Image
-                                                fill
+                                            <img
                                                 src={form.cover instanceof File ? URL.createObjectURL(form.cover) : form.cover} alt="Cover" className='w-full h-44 object-cover' />
 
                                         </div>

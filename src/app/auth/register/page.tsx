@@ -14,7 +14,7 @@ import { Spinner } from '@/components/ui/spinner';
 export default function RegisterPage() {
   const { register } = useAuth();
   const router = useRouter();
-  const [form, setForm] = useState({ first_name: '', last_name: '', email: '', phone: '', password: '', confirm_password: '', address: '' ,role: 'student' });
+  const [form, setForm] = useState({ first_name: '', last_name: '', email: '', phone: '', password: '', confirm_password: '', address: '', role: 'student' });
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -119,7 +119,7 @@ export default function RegisterPage() {
 
             <p className="text-center text-sm text-gray-500 border-t">
               Already have an account?
-              <Button type="button" variant="link" size="sm" className="ml-1 p-0" onClick={() => router.push('/auth/login')}>
+              <Button type="button" variant="link" size="sm" className="ml-1 p-0" onClick={() => router.push('/login')}>
                 Sign In
               </Button>
             </p>

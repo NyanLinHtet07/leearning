@@ -1,5 +1,4 @@
-import React from 'react';
-import { ClassMateType } from '../../../types/user';
+import type { ClassMateType } from '../../../types/user';
 import { Users, UsersRoundIcon } from 'lucide-react';
 
 interface ClassMateProps {
