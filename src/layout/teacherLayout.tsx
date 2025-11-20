@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import type { ReactNode } from 'react';
+// import type { ReactNode } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { LayoutDashboard, BookOpen, Users, GraduationCap, Menu, Tag, User, LogOut, ChevronDown, Settings, UserCircle, ClipboardList, MessageCircle } from 'lucide-react';
+import { LayoutDashboard, BookOpen, Users, GraduationCap, Menu, Tag, User, LogOut, ChevronDown, UserCircle, ClipboardList, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
@@ -33,9 +33,9 @@ const getIconClasses = (active: boolean) =>
 
 function SidebarHeader({ collapsed }: { collapsed: boolean }) {
   return (
-    <div className="border-b  border-gray-100 px-4 py-5 bg-gradient-to-br from-white to-gray-50">
+    <div className="border-b  border-gray-100 px-4 py-5 bg-linear-to-br from-white to-gray-50">
       <div className="flex items-center gap-3">
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-primary/40 to-primary/95 shadow-sm shadow-primary/20 transition-all duration-300 hover:shadow-xl hover:scale-105">
+        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-linear-to-br from-primary/40 to-primary/95 shadow-sm shadow-primary/20 transition-all duration-300 hover:shadow-xl hover:scale-105">
           <GraduationCap className="h-5 w-5 text-white" />
         </div>
         {!collapsed && (
@@ -125,8 +125,8 @@ function NavList({ collapsed }: { collapsed: boolean }) {
         </div>
       </div>
 
-     {/* Logout  */}
-      <div className="border-t border-gray-100 p-4 bg-gradient-to-br from-white to-gray-50">
+      {/* Logout  */}
+      <div className="border-t border-gray-100 p-4 bg-linear-to-br from-white to-gray-50">
         <Button onClick={logout} variant="red" className="flex rounded-xl shadow-md transition-all items-center justify-center  w-full text-white  ">
           <LogOut className="h-4 w-4" />
           {!collapsed && <span className="ml-2 font-semibold">Logout</span>}
@@ -150,11 +150,11 @@ function HeaderBar({ collapsed, setCollapsed }: { collapsed: boolean; setCollaps
   const current = navigationItems.find((item) => pathname === item.href || pathname.startsWith(item.href + '/'))?.title ||
     navigationItems.find((item) => item.children?.some((child) => pathname === child.href || pathname.startsWith(child.href + '/')))?.title ||
     'Dashboard';
-  const { user,logout } = useAuth();
+  const { user, logout } = useAuth();
   return (
     <header className="sticky top-0  z-10  ">
       <div className="mx-4 my-3 md:mx-6 md:my-4">
-        <div className="relative flex h-18 items-center gap-3 px-4 md:px-6 bg-white backdrop-blur-xl rounded-3xl  shadow-sm border border-white/30 transition-all duration-500 before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-br before:from-white/60 before:to-transparent before:pointer-events-none">
+        <div className="relative flex h-18 items-center gap-3 px-4 md:px-6 bg-white backdrop-blur-xl rounded-3xl  shadow-sm border border-white/30 transition-all duration-500 before:absolute before:inset-0 before:rounded-2xl before:bg-linear-to-br before:from-white/60 before:to-transparent before:pointer-events-none">
           {/* Toggle */}
           <Button onClick={() => setCollapsed(!collapsed)} variant="ghost" size="icon" className="hidden md:flex relative z-10   transition-all duration-300   ">
             <Menu className="h-5 w-5 text-gray-700" />
@@ -183,15 +183,15 @@ function HeaderBar({ collapsed, setCollapsed }: { collapsed: boolean; setCollaps
           </Sheet>
 
           <div className="flex items-center gap-3 relative z-10">
-            <div className="h-8 w-px bg-gradient-to-b from-transparent via-gray-400/50 to-transparent" />
-            <h1 className="text-lg md:text-xl font-medium bg-gradient-to-r from-gray-900 via-gray-800 to-gray-700 bg-clip-text text-transparent drop-shadow-sm">{current}</h1>
+            <div className="h-8 w-px bg-linear-to-b from-transparent via-gray-400/50 to-transparent" />
+            <h1 className="text-lg md:text-xl font-medium bg-linear-to-r from-gray-900 via-gray-800 to-gray-700 bg-clip-text text-transparent drop-shadow-sm">{current}</h1>
           </div>
 
           <div className="ml-auto flex items-center gap-3 relative z-10">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <div className="flex items-center gap-3 px-3 py-2 rounded-xl backdrop-blur-md  transition-all duration-300 cursor-pointer group">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-primary/40 to-primary/95 shadow-sm shadow-primary/20 group-hover:shadow-md transition-all duration-300">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-linear-to-br from-primary/40 to-primary/95 shadow-sm shadow-primary/20 group-hover:shadow-md transition-all duration-300">
                     <User className="h-5 w-5 text-white drop-shadow-md" />
                   </div>
                   <div className="hidden lg:flex flex-col items-start">
@@ -203,7 +203,7 @@ function HeaderBar({ collapsed, setCollapsed }: { collapsed: boolean; setCollaps
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-44 bg-white/95 backdrop-blur-xl border border-gray-200 shadow-lg rounded-xl p-2">
                 <DropdownMenuItem className="cursor-pointer rounded-lg hover:bg-primary focus:bg-primary/20 transition-colors duration-200">
-                  <Link to='/teacher/profile'  className='flex items-center'>
+                  <Link to='/teacher/profile' className='flex items-center'>
                     <UserCircle className="mr-2 h-4 w-4 text-gray-600" />
                     <span className="text-sm font-medium">Profile</span>
                   </Link>

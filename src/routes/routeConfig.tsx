@@ -56,7 +56,12 @@ const RootLayout = () => (
 export const routes = [
     {
         path: '/',
-        element: <RootLayout />,
+        element: (
+            <RouteGuard>
+                <RootLayout />,
+            </RouteGuard>
+        ),
+
         children: [
             { index: true, element: lazyLoad(Home) },
             { path: '*', element: lazyLoad(NotFound) },

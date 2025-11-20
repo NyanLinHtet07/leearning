@@ -1,6 +1,6 @@
 
-import { OverviewItem } from '@/types/dashboard';
-import { BookOpen, Users, LayoutDashboard, BookAIcon } from 'lucide-react';
+import type { OverviewItem } from '@/types/dashboard';
+import { BookOpen, LayoutDashboard, BookAIcon } from 'lucide-react';
 
 export const homeOverviews: OverviewItem[] = [
     { id: 0, title: 'Active Courses', value: 12, icon: BookOpen, color: 'bg-shell/90' },
