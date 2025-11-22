@@ -121,7 +121,7 @@ const EnrollPage = () => {
                             </div>
                         </div>
                     ) : (
-                        <>
+                        <div>
                             <div className="p-2">
                                 <h2 className=" text-secondary font-bold text-2xl drop-shadow-sm mb-8 text-center">
                                     Select Your Class
@@ -231,7 +231,7 @@ const EnrollPage = () => {
                                 </Button>
                             </div>
 
-                        </>
+                        </div>
                     )
                 }
 
